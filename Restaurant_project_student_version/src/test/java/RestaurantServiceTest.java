@@ -1,7 +1,9 @@
 import org.junit.jupiter.api.*;
 import org.mockito.MockitoAnnotations;
 
+import java.awt.*;
 import java.time.LocalTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -64,5 +66,45 @@ class RestaurantServiceTest {
         service.addRestaurant("Pumpkin Tales", "Chennai", LocalTime.parse("12:00:00"), LocalTime.parse("23:00:00"));
         assertEquals(initialNumberOfRestaurants + 1, service.getRestaurants().size());
     }
+
+
+    //TDD Approach
+    @Test
+    public void testAddItemWithPriceToRestaurant() {
+        // Add an item with a price to the restaurant
+        service.addItemWithPrice(restaurant, "sweet corn soup", 119);
+
+        // Retrieve the restaurant's menu and check if the item and price are included
+        List<Item> menu = restaurant.getMenu();
+        boolean foundItem = false;
+
+        for (Item item : menu) {
+            String itemName = item.getName();
+            int itemPrice = item.getPrice();
+
+            if (itemName.equals("sweet corn soup") && itemPrice == 119) {
+                foundItem = true;
+                break; // Exit the loop once the item is found
+            }
+        }
+        assertTrue(foundItem);
+    }
+
+    @Test
+    public void testCalculateOrderValue() {
+        // Add items with prices to the restaurant
+        service.addItemWithPrice(restaurant, "sweet corn soup", 119);
+        service.addItemWithPrice(restaurant, "vegetable lasagne", 269);
+        service.addItemWithPrice(restaurant, "sizzling brownie", 319);
+
+        // Calculate the order value for a list of selected items
+         int orderValue = service.calculateOrderValue(new String[]{"sweet corn soup", "vegetable lasagne"});
+
+        // Verify that the order value is as expected
+        // (sweet corn soup: 119 + vegetable lasagne: 269 = 388)
+         assertEquals(388, orderValue);
+    }
+
+
     //<<<<<<<<<<<<<<<<<<<<ADMIN: ADDING & REMOVING RESTAURANTS>>>>>>>>>>>>>>>>>>>>>>>>>>
 }

@@ -32,4 +32,19 @@ public class RestaurantService {
     public List<Restaurant> getRestaurants() {
         return restaurants;
     }
+
+
+
+    public void addItemWithPrice(Restaurant restaurant, String itemName, double price) {
+        //implementation pending
+
+    }
+
+    public int calculateOrderValue(String[] itemNames) {
+        //implementation pending
+
+        return 0;
+    }
+
+
 }
