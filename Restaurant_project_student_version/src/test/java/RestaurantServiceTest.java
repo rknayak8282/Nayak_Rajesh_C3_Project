@@ -37,9 +37,9 @@ class RestaurantServiceTest {
     @Test
     public void searching_for_non_existing_restaurant_should_throw_exception() throws restaurantNotFoundException {
 
-        Restaurant foundRestaurant = service.findRestaurantByName("Pantry d'or");
-        // Assert that null is returned
-        assertNull(foundRestaurant);
+        assertThrows(restaurantNotFoundException.class, () -> {
+            service.findRestaurantByName("Pantry d'or");
+        });
     }
     //<<<<<<<<<<<<<<<<<<<<SEARCHING>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -72,7 +72,7 @@ class RestaurantServiceTest {
     @Test
     public void testAddItemWithPriceToRestaurant() {
         // Add an item with a price to the restaurant
-        service.addItemWithPrice(restaurant, "sweet corn soup", 119);
+        service.addItemWithPrice(restaurant, "sizzling brownie", 319);
 
         // Retrieve the restaurant's menu and check if the item and price are included
         List<Item> menu = restaurant.getMenu();
@@ -82,7 +82,7 @@ class RestaurantServiceTest {
             String itemName = item.getName();
             int itemPrice = item.getPrice();
 
-            if (itemName.equals("sweet corn soup") && itemPrice == 119) {
+            if (itemName.equals("sizzling brownie") && itemPrice == 319) {
                 foundItem = true;
                 break; // Exit the loop once the item is found
             }
@@ -95,7 +95,7 @@ class RestaurantServiceTest {
         // Add items with prices to the restaurant
         service.addItemWithPrice(restaurant, "sweet corn soup", 119);
         service.addItemWithPrice(restaurant, "vegetable lasagne", 269);
-        service.addItemWithPrice(restaurant, "sizzling brownie", 319);
+
 
         // Calculate the order value for a list of selected items
          int orderValue = service.calculateOrderValue(new String[]{"sweet corn soup", "vegetable lasagne"});
